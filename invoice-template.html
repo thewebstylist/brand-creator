@@ -36,7 +36,7 @@
 
     /* ── Page shell ───────────────────────────────────────── */
     .page {
-      width: 816px;          /* US Letter at 96 dpi */
+      width: 816px;
       min-height: 1056px;
       margin: 0 auto;
       background: var(--white);
@@ -57,18 +57,15 @@
       gap: 1.5rem;
     }
 
-    /* Subtle dot-grid texture */
     .header::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(circle, rgba(0,194,255,.12) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(0,194,255,.12) 1px, transparent 1px);
       background-size: 22px 22px;
       pointer-events: none;
     }
 
-    /* Electric accent bar */
     .header::after {
       content: '';
       position: absolute;
@@ -77,10 +74,7 @@
       background: linear-gradient(90deg, var(--blue) 0%, var(--gold) 50%, var(--blue) 100%);
     }
 
-    .brand {
-      position: relative;
-      z-index: 1;
-    }
+    .brand { position: relative; z-index: 1; }
 
     .brand-name {
       font-size: 2.1rem;
@@ -133,15 +127,8 @@
       flex-shrink: 0;
     }
 
-    .header-contact a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-
-    .header-contact strong {
-      color: var(--white);
-      font-size: .72rem;
-    }
+    .header-contact a { color: var(--blue); text-decoration: none; }
+    .header-contact strong { color: var(--white); font-size: .72rem; }
 
     /* ── Invoice meta band ────────────────────────────────── */
     .meta-band {
@@ -153,8 +140,6 @@
       justify-content: space-between;
       gap: 2rem;
     }
-
-    .meta-left {}
 
     .invoice-label {
       font-size: 1.7rem;
@@ -172,10 +157,7 @@
       letter-spacing: .04em;
     }
 
-    .invoice-number span {
-      color: var(--navy);
-      font-weight: 700;
-    }
+    .invoice-number span { color: var(--navy); font-weight: 700; }
 
     .meta-right {
       display: grid;
@@ -194,15 +176,8 @@
       font-weight: 600;
     }
 
-    .meta-right .value {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .meta-right .value.due {
-      color: var(--gold-soft);
-      font-weight: 700;
-    }
+    .meta-right .value { color: var(--text); font-weight: 600; }
+    .meta-right .value.due { color: var(--gold-soft); font-weight: 700; }
 
     /* ── Body ─────────────────────────────────────────────── */
     .body {
@@ -238,38 +213,13 @@
       margin-bottom: .6rem;
     }
 
-    .bill-section p {
-      font-size: .78rem;
-      line-height: 1.6;
-      color: var(--text);
-    }
-
-    .bill-section p strong {
-      display: block;
-      font-size: .82rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: .1rem;
-    }
-
-    .bill-section p.project-title {
-      font-size: .82rem;
-      font-weight: 700;
-      color: var(--navy);
-    }
+    .bill-section p { font-size: .78rem; line-height: 1.6; color: var(--text); }
+    .bill-section p strong { display: block; font-size: .82rem; font-weight: 700; color: var(--navy); margin-bottom: .1rem; }
+    .bill-section p.project-title { font-size: .82rem; font-weight: 700; color: var(--navy); }
 
     /* ── Services table ───────────────────────────────────── */
-    .services-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .78rem;
-    }
-
-    .services-table thead tr {
-      background: var(--navy);
-      color: var(--white);
-    }
-
+    .services-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+    .services-table thead tr { background: var(--navy); color: var(--white); }
     .services-table thead th {
       padding: .65rem .9rem;
       text-align: left;
@@ -278,67 +228,20 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
-
     .services-table thead th.right { text-align: right; }
-
-    .services-table tbody tr {
-      border-bottom: 1px solid var(--gray-100);
-    }
-
-    .services-table tbody tr:nth-child(even) {
-      background: var(--off-white);
-    }
-
-    .services-table tbody td {
-      padding: .75rem .9rem;
-      vertical-align: top;
-      color: var(--text);
-    }
-
-    .services-table tbody td.right {
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .services-table tbody td.center {
-      text-align: center;
-    }
-
-    .services-table .item-name {
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: .15rem;
-    }
-
-    .services-table .item-detail {
-      font-size: .7rem;
-      color: var(--gray-500);
-      line-height: 1.5;
-    }
-
-    .services-table .item-period {
-      font-size: .68rem;
-      color: var(--blue-soft);
-      margin-top: .2rem;
-      font-weight: 600;
-    }
-
-    /* Empty line rows */
-    .services-table .empty-row td {
-      height: 36px;
-      border-bottom: 1px solid var(--gray-100);
-    }
+    .services-table tbody tr { border-bottom: 1px solid var(--gray-100); }
+    .services-table tbody tr:nth-child(even) { background: var(--off-white); }
+    .services-table tbody td { padding: .75rem .9rem; vertical-align: top; color: var(--text); }
+    .services-table tbody td.right { text-align: right; white-space: nowrap; }
+    .services-table tbody td.center { text-align: center; }
+    .services-table .item-name { font-weight: 700; color: var(--navy); margin-bottom: .15rem; }
+    .services-table .item-detail { font-size: .7rem; color: var(--gray-500); line-height: 1.5; }
+    .services-table .item-period { font-size: .68rem; color: var(--blue-soft); margin-top: .2rem; font-weight: 600; }
+    .services-table .empty-row td { height: 36px; border-bottom: 1px solid var(--gray-100); }
 
     /* ── Totals ───────────────────────────────────────────── */
-    .totals-area {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .totals-box {
-      width: 260px;
-    }
-
+    .totals-area { display: flex; justify-content: flex-end; }
+    .totals-box { width: 260px; }
     .totals-row {
       display: flex;
       justify-content: space-between;
@@ -348,11 +251,7 @@
       border-bottom: 1px solid var(--gray-100);
       color: var(--gray-700);
     }
-
-    .totals-row:last-child {
-      border-bottom: none;
-    }
-
+    .totals-row:last-child { border-bottom: none; }
     .totals-row.grand {
       background: var(--navy);
       color: var(--white);
@@ -362,11 +261,7 @@
       border-radius: 5px;
       margin-top: .4rem;
     }
-
-    .totals-row.grand .grand-amount {
-      color: var(--gold);
-      font-size: 1rem;
-    }
+    .totals-row.grand .grand-amount { color: var(--gold); font-size: 1rem; }
 
     /* ── Notes ────────────────────────────────────────────── */
     .notes-area {
@@ -376,7 +271,6 @@
       border-top: 1px solid var(--gray-200);
       padding-top: .8rem;
     }
-
     .notes-area strong {
       color: var(--gray-700);
       font-weight: 700;
@@ -394,20 +288,13 @@
       border-radius: 6px;
       padding: 1rem 1.1rem;
     }
-
     .payment-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: .9rem;
       margin-top: .6rem;
     }
-
-    .payment-method {
-      font-size: .7rem;
-      line-height: 1.55;
-      color: var(--text);
-    }
-
+    .payment-method { font-size: .7rem; line-height: 1.55; color: var(--text); }
     .payment-method .method-label {
       font-size: .62rem;
       font-weight: 700;
@@ -427,7 +314,6 @@
       justify-content: space-between;
       position: relative;
     }
-
     .footer::before {
       content: '';
       position: absolute;
@@ -435,13 +321,7 @@
       height: 3px;
       background: linear-gradient(90deg, var(--gold) 0%, var(--blue) 50%, var(--gold) 100%);
     }
-
-    .footer-left {
-      font-size: .65rem;
-      color: rgba(255,255,255,.45);
-      letter-spacing: .06em;
-    }
-
+    .footer-left { font-size: .65rem; color: rgba(255,255,255,.45); letter-spacing: .06em; }
     .footer-powered {
       font-size: .62rem;
       font-weight: 700;
@@ -452,32 +332,19 @@
       align-items: center;
       gap: .4rem;
     }
-
-    .footer-powered span {
-      color: var(--gold);
-    }
+    .footer-powered span { color: var(--gold); }
 
     /* ── Print ────────────────────────────────────────────── */
     @media print {
-      body {
-        background: none;
-        padding: 0;
-      }
-      .page {
-        width: 100%;
-        box-shadow: none;
-      }
-      @page {
-        size: letter;
-        margin: 0;
-      }
+      body { background: none; padding: 0; }
+      .page { width: 100%; box-shadow: none; }
+      @page { size: letter; margin: 0; }
     }
   </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- ═══ HEADER ═══════════════════════════════════════════ -->
   <header class="header">
     <div class="brand">
       <div class="brand-name">The Web Stylist</div>
@@ -493,23 +360,20 @@
     </div>
   </header>
 
-  <!-- ═══ INVOICE META BAND ═════════════════════════════════ -->
   <div class="meta-band">
     <div class="meta-left">
       <div class="invoice-label">Invoice</div>
       <div class="invoice-number">No. <span><!-- INVOICE_NUMBER --></span></div>
     </div>
     <div class="meta-right">
-      <span class="label">Date</span>       <span class="value"><!-- DATE --></span>
-      <span class="label">Due Date</span>   <span class="value due"><!-- DUE_DATE --></span>
-      <span class="label">P.O. Number</span><span class="value"><!-- PO_NUMBER --></span>
+      <span class="label">Date</span>        <span class="value"><!-- DATE --></span>
+      <span class="label">Due Date</span>    <span class="value due"><!-- DUE_DATE --></span>
+      <span class="label">P.O. Number</span> <span class="value"><!-- PO_NUMBER --></span>
     </div>
   </div>
 
-  <!-- ═══ BODY ══════════════════════════════════════════════ -->
   <div class="body">
 
-    <!-- Bill To / Project Info -->
     <div class="bill-row">
       <div class="bill-section">
         <div class="section-title">Bill To</div>
@@ -527,7 +391,6 @@
       </div>
     </div>
 
-    <!-- Services Table -->
     <table class="services-table">
       <thead>
         <tr>
@@ -539,8 +402,6 @@
         </tr>
       </thead>
       <tbody>
-
-        <!-- ── Line item 1 ── -->
         <tr>
           <td>
             <div class="item-name"><!-- ITEM_1_NAME --></div>
@@ -552,8 +413,6 @@
           <td class="right"><!-- ITEM_1_PRICE --></td>
           <td class="right"><!-- ITEM_1_TOTAL --></td>
         </tr>
-
-        <!-- ── Line item 2 ── -->
         <tr>
           <td>
             <div class="item-name"><!-- ITEM_2_NAME --></div>
@@ -565,8 +424,6 @@
           <td class="right"><!-- ITEM_2_PRICE --></td>
           <td class="right"><!-- ITEM_2_TOTAL --></td>
         </tr>
-
-        <!-- ── Line item 3 ── -->
         <tr>
           <td>
             <div class="item-name"><!-- ITEM_3_NAME --></div>
@@ -578,8 +435,6 @@
           <td class="right"><!-- ITEM_3_PRICE --></td>
           <td class="right"><!-- ITEM_3_TOTAL --></td>
         </tr>
-
-        <!-- ── Line item 4 ── -->
         <tr>
           <td>
             <div class="item-name"><!-- ITEM_4_NAME --></div>
@@ -591,26 +446,16 @@
           <td class="right"><!-- ITEM_4_PRICE --></td>
           <td class="right"><!-- ITEM_4_TOTAL --></td>
         </tr>
-
-        <!-- ── Extra blank rows (remove if unneeded) ── -->
         <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td></tr>
         <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td></tr>
-
       </tbody>
     </table>
 
-    <!-- Totals -->
     <div class="totals-area">
       <div class="totals-box">
-        <div class="totals-row">
-          <span>Subtotal</span><span><!-- SUBTOTAL --></span>
-        </div>
-        <div class="totals-row">
-          <span>Discount</span><span><!-- DISCOUNT --></span>
-        </div>
-        <div class="totals-row">
-          <span>Tax</span><span><!-- TAX --></span>
-        </div>
+        <div class="totals-row"><span>Subtotal</span><span><!-- SUBTOTAL --></span></div>
+        <div class="totals-row"><span>Discount</span><span><!-- DISCOUNT --></span></div>
+        <div class="totals-row"><span>Tax</span><span><!-- TAX --></span></div>
         <div class="totals-row grand">
           <span>Total Due</span>
           <span class="grand-amount"><!-- GRAND_TOTAL --></span>
@@ -618,7 +463,6 @@
       </div>
     </div>
 
-    <!-- Payment Methods -->
     <div class="payment-section">
       <div class="section-title">Payment Options</div>
       <div class="payment-grid">
@@ -641,7 +485,6 @@
       </div>
     </div>
 
-    <!-- Notes -->
     <div class="notes-area">
       <strong>Notes</strong>
       Thank you for your business! Payment is due upon receipt unless otherwise agreed.
@@ -649,14 +492,13 @@
       Questions? Contact us at <a href="mailto:Sterling@TheWebStylist.com" style="color:var(--blue-soft)">Sterling@TheWebStylist.com</a>.
     </div>
 
-  </div><!-- /body -->
+  </div>
 
-  <!-- ═══ FOOTER ════════════════════════════════════════════ -->
   <footer class="footer">
-    <div class="footer-left">TheWebStylist.com &nbsp;·&nbsp; SterlingCreations.AI &nbsp;·&nbsp; 855-WEB-STYLIST</div>
+    <div class="footer-left">TheWebStylist.com &nbsp;&middot;&nbsp; SterlingCreations.AI &nbsp;&middot;&nbsp; 855-WEB-STYLIST</div>
     <div class="footer-powered">Powered by <span>Sterling Creations AI</span></div>
   </footer>
 
-</div><!-- /page -->
+</div>
 </body>
 </html>

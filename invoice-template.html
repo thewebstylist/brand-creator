@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invoice — The Web Stylist | Sterling Creations AI</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0A0F2C;
+      --navy-mid:  #141B45;
+      --blue:      #00C2FF;
+      --blue-soft: #007EA8;
+      --gold:      #F5A623;
+      --gold-soft: #D48E1A;
+      --white:     #FFFFFF;
+      --off-white: #F7F9FC;
+      --gray-100:  #EDF1F7;
+      --gray-300:  #C4CDD9;
+      --gray-500:  #7A8799;
+      --gray-700:  #3D4F61;
+      --text:      #1A2535;
+      --font:      'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: #D9DDE5;
+      color: var(--text);
+      padding: 2rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── Page shell ───────────────────────────────────────── */
+    .page {
+      width: 816px;          /* US Letter at 96 dpi */
+      min-height: 1056px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 32px rgba(0,0,0,.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1A2A5E 100%);
+      padding: 2rem 2.5rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    /* Subtle dot-grid texture */
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(0,194,255,.12) 1px, transparent 1px);
+      background-size: 22px 22px;
+      pointer-events: none;
+    }
+
+    /* Electric accent bar */
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue) 0%, var(--gold) 50%, var(--blue) 100%);
+    }
+
+    .brand {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-name {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: .35rem;
+    }
+
+    .brand-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: .7rem;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      border-top: 1px solid rgba(255,255,255,.15);
+      padding-top: .5rem;
+    }
+
+    .brand-sub::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .header-contact {
+      position: relative;
+      z-index: 1;
+      text-align: right;
+      color: rgba(255,255,255,.75);
+      font-size: .7rem;
+      line-height: 1.75;
+      flex-shrink: 0;
+    }
+
+    .header-contact a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .header-contact strong {
+      color: var(--white);
+      font-size: .72rem;
+    }
+
+    /* ── Invoice meta band ────────────────────────────────── */
+    .meta-band {
+      background: var(--gray-100);
+      border-bottom: 1px solid var(--gray-300);
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .meta-left {}
+
+    .invoice-label {
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .invoice-number {
+      font-size: .72rem;
+      color: var(--gray-500);
+      margin-top: .3rem;
+      letter-spacing: .04em;
+    }
+
+    .invoice-number span {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .meta-right {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: .2rem .9rem;
+      text-align: right;
+      font-size: .73rem;
+    }
+
+    .meta-right .label {
+      color: var(--gray-500);
+      text-align: left;
+      text-transform: uppercase;
+      font-size: .64rem;
+      letter-spacing: .06em;
+      font-weight: 600;
+    }
+
+    .meta-right .value {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .meta-right .value.due {
+      color: var(--gold-soft);
+      font-weight: 700;
+    }
+
+    /* ── Body ─────────────────────────────────────────────── */
+    .body {
+      padding: 1.6rem 2.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    /* ── Bill-to / Project row ────────────────────────────── */
+    .bill-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .bill-section {
+      background: var(--off-white);
+      border: 1px solid var(--gray-100);
+      border-radius: 6px;
+      padding: 1rem 1.1rem;
+    }
+
+    .section-title {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue-soft);
+      border-bottom: 1px solid var(--gray-300);
+      padding-bottom: .4rem;
+      margin-bottom: .6rem;
+    }
+
+    .bill-section p {
+      font-size: .78rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .bill-section p strong {
+      display: block;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .1rem;
+    }
+
+    .bill-section p.project-title {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* ── Services table ───────────────────────────────────── */
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .78rem;
+    }
+
+    .services-table thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .services-table thead th {
+      padding: .65rem .9rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .services-table thead th.right { text-align: right; }
+
+    .services-table tbody tr {
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .services-table tbody tr:nth-child(even) {
+      background: var(--off-white);
+    }
+
+    .services-table tbody td {
+      padding: .75rem .9rem;
+      vertical-align: top;
+      color: var(--text);
+    }
+
+    .services-table tbody td.right {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .services-table tbody td.center {
+      text-align: center;
+    }
+
+    .services-table .item-name {
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .15rem;
+    }
+
+    .services-table .item-detail {
+      font-size: .7rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    .services-table .item-period {
+      font-size: .68rem;
+      color: var(--blue-soft);
+      margin-top: .2rem;
+      font-weight: 600;
+    }
+
+    /* Empty line rows */
+    .services-table .empty-row td {
+      height: 36px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    /* ── Totals ───────────────────────────────────────────── */
+    .totals-area {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .totals-box {
+      width: 260px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .4rem 0;
+      font-size: .78rem;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
+    }
+
+    .totals-row:last-child {
+      border-bottom: none;
+    }
+
+    .totals-row.grand {
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 800;
+      font-size: .88rem;
+      padding: .55rem .75rem;
+      border-radius: 5px;
+      margin-top: .4rem;
+    }
+
+    .totals-row.grand .grand-amount {
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ── Notes ────────────────────────────────────────────── */
+    .notes-area {
+      font-size: .72rem;
+      color: var(--gray-500);
+      line-height: 1.65;
+      border-top: 1px solid var(--gray-200);
+      padding-top: .8rem;
+    }
+
+    .notes-area strong {
+      color: var(--gray-700);
+      font-weight: 700;
+      display: block;
+      margin-bottom: .2rem;
+      font-size: .68rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Payment section ──────────────────────────────────── */
+    .payment-section {
+      background: var(--off-white);
+      border: 1px solid var(--gray-100);
+      border-radius: 6px;
+      padding: 1rem 1.1rem;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .9rem;
+      margin-top: .6rem;
+    }
+
+    .payment-method {
+      font-size: .7rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .payment-method .method-label {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue-soft);
+      display: block;
+      margin-bottom: .2rem;
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .footer {
+      background: var(--navy);
+      padding: .75rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--blue) 50%, var(--gold) 100%);
+    }
+
+    .footer-left {
+      font-size: .65rem;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .06em;
+    }
+
+    .footer-powered {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .footer-powered span {
+      color: var(--gold);
+    }
+
+    /* ── Print ────────────────────────────────────────────── */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .page {
+        width: 100%;
+        box-shadow: none;
+      }
+      @page {
+        size: letter;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══ HEADER ═══════════════════════════════════════════ -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-name">The Web Stylist</div>
+      <div class="brand-tagline">Web Design &nbsp;|&nbsp; AI Content Creation &nbsp;|&nbsp; Brand Creation &nbsp;|&nbsp; Hosting</div>
+      <div class="brand-sub">A Sterling Creations AI Company</div>
+    </div>
+    <div class="header-contact">
+      <strong>855-WEB-STYLIST</strong> Office<br>
+      323-899-8423 Cell<br>
+      <a href="mailto:Sterling@TheWebStylist.com">Sterling@TheWebStylist.com</a><br>
+      <a href="https://TheWebStylist.com">TheWebStylist.com</a><br>
+      <a href="https://SterlingCreations.AI">SterlingCreations.AI</a>
+    </div>
+  </header>
+
+  <!-- ═══ INVOICE META BAND ═════════════════════════════════ -->
+  <div class="meta-band">
+    <div class="meta-left">
+      <div class="invoice-label">Invoice</div>
+      <div class="invoice-number">No. <span><!-- INVOICE_NUMBER --></span></div>
+    </div>
+    <div class="meta-right">
+      <span class="label">Date</span>       <span class="value"><!-- DATE --></span>
+      <span class="label">Due Date</span>   <span class="value due"><!-- DUE_DATE --></span>
+      <span class="label">P.O. Number</span><span class="value"><!-- PO_NUMBER --></span>
+    </div>
+  </div>
+
+  <!-- ═══ BODY ══════════════════════════════════════════════ -->
+  <div class="body">
+
+    <!-- Bill To / Project Info -->
+    <div class="bill-row">
+      <div class="bill-section">
+        <div class="section-title">Bill To</div>
+        <p>
+          <strong><!-- ATTENTION --></strong>
+          <!-- COMPANY_NAME --><br>
+          <!-- ADDRESS_LINE_1 --><br>
+          <!-- ADDRESS_LINE_2 -->
+        </p>
+      </div>
+      <div class="bill-section">
+        <div class="section-title">Project</div>
+        <p class="project-title"><!-- PROJECT_TITLE --></p>
+        <p style="margin-top:.4rem"><!-- PROJECT_DESCRIPTION --></p>
+      </div>
+    </div>
+
+    <!-- Services Table -->
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th style="width:46%">Description</th>
+          <th style="width:16%" class="right">Service Period</th>
+          <th style="width:9%" class="center">Qty</th>
+          <th style="width:14%" class="right">Price</th>
+          <th style="width:15%" class="right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ── Line item 1 ── -->
+        <tr>
+          <td>
+            <div class="item-name"><!-- ITEM_1_NAME --></div>
+            <div class="item-detail"><!-- ITEM_1_DETAIL --></div>
+            <div class="item-period"><!-- ITEM_1_PERIOD --></div>
+          </td>
+          <td class="right"><!-- ITEM_1_SERVICE_PERIOD --></td>
+          <td class="center"><!-- ITEM_1_QTY --></td>
+          <td class="right"><!-- ITEM_1_PRICE --></td>
+          <td class="right"><!-- ITEM_1_TOTAL --></td>
+        </tr>
+
+        <!-- ── Line item 2 ── -->
+        <tr>
+          <td>
+            <div class="item-name"><!-- ITEM_2_NAME --></div>
+            <div class="item-detail"><!-- ITEM_2_DETAIL --></div>
+            <div class="item-period"><!-- ITEM_2_PERIOD --></div>
+          </td>
+          <td class="right"><!-- ITEM_2_SERVICE_PERIOD --></td>
+          <td class="center"><!-- ITEM_2_QTY --></td>
+          <td class="right"><!-- ITEM_2_PRICE --></td>
+          <td class="right"><!-- ITEM_2_TOTAL --></td>
+        </tr>
+
+        <!-- ── Line item 3 ── -->
+        <tr>
+          <td>
+            <div class="item-name"><!-- ITEM_3_NAME --></div>
+            <div class="item-detail"><!-- ITEM_3_DETAIL --></div>
+            <div class="item-period"><!-- ITEM_3_PERIOD --></div>
+          </td>
+          <td class="right"><!-- ITEM_3_SERVICE_PERIOD --></td>
+          <td class="center"><!-- ITEM_3_QTY --></td>
+          <td class="right"><!-- ITEM_3_PRICE --></td>
+          <td class="right"><!-- ITEM_3_TOTAL --></td>
+        </tr>
+
+        <!-- ── Line item 4 ── -->
+        <tr>
+          <td>
+            <div class="item-name"><!-- ITEM_4_NAME --></div>
+            <div class="item-detail"><!-- ITEM_4_DETAIL --></div>
+            <div class="item-period"><!-- ITEM_4_PERIOD --></div>
+          </td>
+          <td class="right"><!-- ITEM_4_SERVICE_PERIOD --></td>
+          <td class="center"><!-- ITEM_4_QTY --></td>
+          <td class="right"><!-- ITEM_4_PRICE --></td>
+          <td class="right"><!-- ITEM_4_TOTAL --></td>
+        </tr>
+
+        <!-- ── Extra blank rows (remove if unneeded) ── -->
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td></tr>
+
+      </tbody>
+    </table>
+
+    <!-- Totals -->
+    <div class="totals-area">
+      <div class="totals-box">
+        <div class="totals-row">
+          <span>Subtotal</span><span><!-- SUBTOTAL --></span>
+        </div>
+        <div class="totals-row">
+          <span>Discount</span><span><!-- DISCOUNT --></span>
+        </div>
+        <div class="totals-row">
+          <span>Tax</span><span><!-- TAX --></span>
+        </div>
+        <div class="totals-row grand">
+          <span>Total Due</span>
+          <span class="grand-amount"><!-- GRAND_TOTAL --></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="payment-section">
+      <div class="section-title">Payment Options</div>
+      <div class="payment-grid">
+        <div class="payment-method">
+          <span class="method-label">Zelle</span>
+          Wells Fargo<br>323-899-8423<br>M Sterling Williams
+        </div>
+        <div class="payment-method">
+          <span class="method-label">Venmo</span>
+          @sterling_williams<br>@thewebstylist
+        </div>
+        <div class="payment-method">
+          <span class="method-label">PayPal</span>
+          Payments@TheWebStylist
+        </div>
+        <div class="payment-method">
+          <span class="method-label">Check / Mail</span>
+          45 South Arroyo Parkway #B7<br>Pasadena, CA 91105
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="notes-area">
+      <strong>Notes</strong>
+      Thank you for your business! Payment is due upon receipt unless otherwise agreed.
+      Late payments beyond 30 days may be subject to a 1.5% monthly service charge.
+      Questions? Contact us at <a href="mailto:Sterling@TheWebStylist.com" style="color:var(--blue-soft)">Sterling@TheWebStylist.com</a>.
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- ═══ FOOTER ════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-left">TheWebStylist.com &nbsp;·&nbsp; SterlingCreations.AI &nbsp;·&nbsp; 855-WEB-STYLIST</div>
+    <div class="footer-powered">Powered by <span>Sterling Creations AI</span></div>
+  </footer>
+
+</div><!-- /page -->
+</body>
+</html>

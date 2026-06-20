@@ -521,10 +521,10 @@
 
   <!-- HEADER -->
   <header class="header">
-    <!-- Logo: drop your file in as "sterling-creations-logo.png" and it loads
-         automatically. If the file isn't found, the SVG fallback below shows. -->
+    <!-- Logo: loaded from the Sterling Creations CDN. If it ever fails to
+         load, the SVG fallback below shows so the header is never broken. -->
     <div class="logo">
-      <img id="brandLogo" src="sterling-creations-logo.png" alt="Sterling Creations Ai"
+      <img id="brandLogo" src="https://sterlingcdn.b-cdn.net/sterlingcreationsaiassets/sterling-creations-ai-new-logo-circle-Dark-.png" alt="Sterling Creations Ai"
            onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block';" />
       <svg id="logoFallback" style="display:none" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs>

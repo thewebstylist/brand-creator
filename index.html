@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invoice — Sterling Creations Ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────────────────
+     Sterling Creations Ai — Fillable Invoice
+     • Every value is an editable field (type online, then print)
+     • Line totals / subtotal / total-due auto-calculate
+     • "Print / Save as PDF" produces a clean letter-size PDF
+     ───────────────────────────────────────────────────────── */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink:      #E62B8B;   /* primary magenta            */
+    --pink-soft: #F472B6;
+    --purple:    #7A3FF2;
+    --purple-dk: #5B21B6;
+    --cyan:      #22B8E6;
+    --ink:       #16182B;   /* near-black headings        */
+    --ink-soft:  #2C2F45;
+    --gray-700:  #4A4E63;
+    --gray-500:  #8A8FA3;
+    --gray-400:  #A9AEC2;
+    --gray-300:  #CFD3E0;
+    --gray-200:  #E4E7F0;
+    --gray-100:  #F1F3F9;
+    --line:      #DCE0EC;
+    --white:     #FFFFFF;
+    --bg:        #E9EBF1;
+    --grad:      linear-gradient(135deg, var(--pink) 0%, var(--purple) 55%, var(--cyan) 100%);
+    --grad-v:    linear-gradient(180deg, var(--pink) 0%, var(--purple) 55%, var(--cyan) 100%);
+    --font:      'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink-soft);
+    padding: 2rem 1rem 4rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Toolbar (screen only) ─────────────────────────────── */
+  .toolbar {
+    width: 816px;
+    max-width: 100%;
+    margin: 0 auto 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    align-items: center;
+  }
+  .toolbar .spacer { flex: 1; }
+  .toolbar .hint {
+    font-size: .72rem;
+    color: var(--gray-500);
+    letter-spacing: .02em;
+  }
+  .btn {
+    font-family: var(--font);
+    font-size: .76rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    padding: .6rem 1.05rem;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+  }
+  .btn:hover  { box-shadow: 0 3px 10px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn.primary {
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 14px rgba(230,43,139,.35);
+  }
+  .btn svg { width: 15px; height: 15px; }
+
+  /* ── Page shell ────────────────────────────────────────── */
+  .page {
+    width: 816px;                 /* US Letter @ 96dpi  */
+    min-height: 1056px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 10px 50px rgba(20,24,60,.18);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 2.6rem 2.8rem 0;
+  }
+
+  /* ── Header ────────────────────────────────────────────── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 3px solid;
+    border-image: var(--grad) 1;
+  }
+
+  .logo {
+    width: 118px;
+    height: 118px;
+    flex-shrink: 0;
+  }
+  .logo svg, .logo img { width: 100%; height: 100%; display: block; object-fit: contain; }
+
+  .brand { text-align: right; }
+  .brand-name {
+    font-size: 2.05rem;
+    font-weight: 800;
+    letter-spacing: .01em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .brand-name .ai { color: var(--pink); }
+  .brand-tagline {
+    margin-top: .55rem;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--gray-500);
+  }
+  .brand-services {
+    margin-top: .35rem;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--purple);
+  }
+
+  /* ── Title row ─────────────────────────────────────────── */
+  .title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.6rem 0 1.4rem;
+  }
+  .title-eyebrow {
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--pink);
+  }
+  .title-main {
+    font-size: 2.7rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--ink);
+    line-height: 1;
+    margin-top: .2rem;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, auto));
+    gap: 1.4rem;
+  }
+  .meta-grid .cell { min-width: 96px; }
+  .meta-grid .lbl {
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: .15rem;
+  }
+
+  /* ── Inputs (the fillable bits) ────────────────────────── */
+  .fld {
+    font-family: var(--font);
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    padding: .25rem .1rem;
+    width: 100%;
+    outline: none;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .fld::placeholder { color: var(--gray-400); font-weight: 500; }
+  .fld:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.04); }
+  textarea.fld { resize: none; line-height: 1.5; overflow: hidden; }
+
+  .meta-grid .fld { font-size: .92rem; min-width: 96px; }
+
+  /* ── Card row ──────────────────────────────────────────── */
+  .card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+  .card {
+    position: relative;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem 1.2rem 1.4rem;
+    overflow: hidden;
+  }
+  .card::before {        /* coloured accent bar */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 5px;
+    background: var(--grad-v);
+  }
+  .card.accent-pink::before   { background: var(--pink); }
+  .card.accent-purple::before { background: var(--purple); }
+
+  .card-title {
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: .85rem;
+  }
+  .card.accent-purple .card-title { color: var(--purple); }
+
+  .field-block { margin-bottom: .7rem; }
+  .field-block:last-child { margin-bottom: 0; }
+  .field-block .lbl {
+    font-size: .6rem;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: .15rem;
+    display: block;
+  }
+
+  /* FROM block — mostly static, still editable */
+  .from-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: .35rem;
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    outline: none;
+  }
+  .from-line {
+    font-size: .82rem;
+    font-weight: 500;
+    color: var(--gray-700);
+    line-height: 1.7;
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    outline: none;
+    padding: .05rem 0;
+  }
+  .from-line:focus, .from-name:focus { background: rgba(122,63,242,.06); border-radius: 4px; }
+  .from-line .accent { color: var(--pink); font-style: italic; font-weight: 600; }
+
+  /* ── Line items table ──────────────────────────────────── */
+  .items-card {
+    margin-top: 1.4rem;
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem 1.2rem 1.4rem;
+    overflow: hidden;
+  }
+  .items-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 5px;
+    background: var(--grad-v);
+  }
+  table.items { width: 100%; border-collapse: collapse; }
+  table.items thead th {
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    text-align: left;
+    padding: 0 .5rem .55rem;
+    border-bottom: 1.5px solid var(--line);
+  }
+  table.items thead th.r { text-align: right; }
+  table.items thead th.c { text-align: center; }
+
+  table.items tbody td {
+    padding: .45rem .5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  table.items .fld { border-bottom: none; font-weight: 500; font-size: .84rem; }
+  table.items .fld:focus { background: rgba(230,43,139,.05); border-radius: 5px; }
+  table.items td.desc .fld { font-weight: 600; color: var(--ink); }
+  table.items td.r .fld, table.items td.c .fld { text-align: right; }
+  table.items td.c .fld { text-align: center; }
+  .line-total {
+    text-align: right;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: .88rem;
+    white-space: nowrap;
+    padding-right: .3rem;
+  }
+  .row-del {
+    border: none;
+    background: transparent;
+    color: var(--gray-400);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: .2rem .35rem;
+    border-radius: 6px;
+    transition: color .12s, background .12s;
+  }
+  .row-del:hover { color: var(--pink); background: rgba(230,43,139,.08); }
+  td.del-cell { width: 30px; text-align: center; }
+
+  .add-row-wrap { margin-top: .7rem; }
+  .add-row {
+    border: 1px dashed var(--gray-300);
+    background: transparent;
+    color: var(--gray-500);
+    font-family: var(--font);
+    font-size: .74rem;
+    font-weight: 600;
+    padding: .5rem .9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .12s;
+  }
+  .add-row:hover { border-color: var(--pink); color: var(--pink); background: rgba(230,43,139,.04); }
+
+  /* ── Payment + Totals row ──────────────────────────────── */
+  .lower-row {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 1.4rem;
+    margin-top: 1.4rem;
+  }
+  .pay-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+
+  .totals-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(230,43,139,.10) 0%, rgba(122,63,242,.10) 55%, rgba(34,184,230,.10) 100%);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 1.2rem 1.3rem 1.3rem 1.5rem;
+    overflow: hidden;
+    align-self: start;
+  }
+  .totals-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 5px;
+    background: var(--grad-v);
+  }
+  .tot-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .5rem 0;
+    border-bottom: 1px solid rgba(122,63,242,.16);
+  }
+  .tot-row .lbl {
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+  }
+  .tot-row .val {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: right;
+    width: 120px;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    outline: none;
+    border-bottom: 1.5px solid transparent;
+  }
+  .tot-row .val:focus { border-bottom-color: var(--pink); }
+  .tot-row.grand {
+    border-bottom: none;
+    margin-top: .35rem;
+    padding-top: .7rem;
+  }
+  .tot-row.grand .lbl { color: var(--ink); font-size: .8rem; }
+  .tot-row.grand .grand-amt {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--pink);
+    text-align: right;
+    width: 150px;
+  }
+
+  /* ── Notes ─────────────────────────────────────────────── */
+  .notes-card {
+    position: relative;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 1rem 1.2rem 1.1rem 1.4rem;
+    margin-top: 1.4rem;
+    overflow: hidden;
+  }
+  .notes-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 5px;
+    background: var(--grad-v);
+  }
+  .notes-card .card-title { margin-bottom: .55rem; }
+  textarea.notes {
+    width: 100%;
+    min-height: 58px;
+    border: none;
+    background: transparent;
+    resize: none;
+    outline: none;
+    font-family: var(--font);
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--gray-700);
+  }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  .footer {
+    margin: 1.6rem -2.8rem 0;
+    padding: 1rem 2.8rem 1.4rem;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+  .footer .mid { color: var(--gray-400); }
+  .footer .right { color: var(--ink); letter-spacing: .08em; }
+
+  /* ── Print ─────────────────────────────────────────────── */
+  @media print {
+    body { background: none; padding: 0; }
+    .toolbar { display: none !important; }
+    .page {
+      width: 100%;
+      min-height: 0;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 1.4rem 1.6rem 0;
+    }
+    .footer { margin: 1.4rem -1.6rem 0; padding: .9rem 1.6rem 1.1rem; }
+    .row-del, .add-row-wrap { display: none !important; }
+    td.del-cell { display: none; }
+    .fld, .from-line, .from-name, .tot-row .val, textarea.notes { background: none !important; }
+    .fld:focus { border-bottom-color: var(--line); }
+    .fld::placeholder, textarea.notes::placeholder { color: transparent; }
+    @page { size: letter; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ TOOLBAR (screen only) ═══════════════════════════════ -->
+<div class="toolbar">
+  <button class="btn primary" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print / Save as PDF
+  </button>
+  <button class="btn" onclick="addLineItem()">＋ Add line item</button>
+  <button class="btn" onclick="saveLocal()">💾 Save draft</button>
+  <button class="btn" onclick="resetForm()">↺ Clear</button>
+  <span class="spacer"></span>
+  <span class="hint">Type into any field, then “Print / Save as PDF.” Drafts save in this browser.</span>
+</div>
+
+<!-- ═══ PAGE ════════════════════════════════════════════════ -->
+<div class="page" id="invoice">
+
+  <!-- HEADER -->
+  <header class="header">
+    <!-- Logo: loaded from the Sterling Creations CDN. If it ever fails to
+         load, the SVG fallback below shows so the header is never broken. -->
+    <div class="logo">
+      <img id="brandLogo" src="https://sterlingcdn.b-cdn.net/sterlingcreationsaiassets/sterling-creations-ai-new-logo-circle-Dark-.png" alt="Sterling Creations Ai"
+           onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block';" />
+      <svg id="logoFallback" style="display:none" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="scg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#E62B8B"/>
+            <stop offset="0.55" stop-color="#7A3FF2"/>
+            <stop offset="1" stop-color="#22B8E6"/>
+          </linearGradient>
+          <path id="arcTop" d="M 16 60 A 44 44 0 0 1 104 60" fill="none"/>
+          <path id="arcBot" d="M 18 60 A 42 42 0 0 0 102 60" fill="none"/>
+        </defs>
+        <circle cx="60" cy="60" r="57" fill="none" stroke="url(#scg)" stroke-width="2.5"/>
+        <circle cx="60" cy="60" r="47" fill="none" stroke="url(#scg)" stroke-width="1" stroke-dasharray="1.5 3" opacity="0.6"/>
+        <text font-family="Montserrat, Arial" font-size="9" font-weight="700" letter-spacing="3" fill="#16182B">
+          <textPath href="#arcTop" startOffset="50%" text-anchor="middle">STERLING</textPath>
+        </text>
+        <text font-family="Montserrat, Arial" font-size="8" font-weight="700" letter-spacing="2.5" fill="#16182B">
+          <textPath href="#arcBot" startOffset="50%" text-anchor="middle">CREATIONS AI</textPath>
+        </text>
+        <text x="60" y="60" text-anchor="middle" font-family="Montserrat, Arial" font-size="38" font-weight="800" fill="url(#scg)" dominant-baseline="central">SC</text>
+        <text x="60" y="84" text-anchor="middle" font-family="Montserrat, Arial" font-size="13" font-weight="800" fill="url(#scg)">Ai</text>
+      </svg>
+    </div>
+
+    <div class="brand">
+      <div class="brand-name">STERLING CREATIONS <span class="ai">Ai</span></div>
+      <div class="brand-tagline">IDEAS TO LIFE — IN DAYS, NOT MONTHS</div>
+      <div class="brand-services">Creative Ai Studio · Web Design · Brand Creation · Video · Automation</div>
+    </div>
+  </header>
+
+  <!-- TITLE + META -->
+  <div class="title-row">
+    <div>
+      <div class="title-eyebrow">Invoice / Balance Due</div>
+      <div class="title-main">Invoice</div>
+    </div>
+    <div class="meta-grid">
+      <div class="cell">
+        <div class="lbl">Invoice No.</div>
+        <input class="fld" data-key="invno" placeholder="#OFFB061926" />
+      </div>
+      <div class="cell">
+        <div class="lbl">Date</div>
+        <input class="fld" data-key="date" placeholder="6-19-2026" />
+      </div>
+      <div class="cell">
+        <div class="lbl">Due</div>
+        <input class="fld" data-key="due" placeholder="Upon Receipt" />
+      </div>
+    </div>
+  </div>
+
+  <!-- BILL TO / FROM -->
+  <div class="card-row">
+    <div class="card accent-pink">
+      <div class="card-title">Bill To</div>
+      <div class="field-block">
+        <span class="lbl">Attention</span>
+        <input class="fld" data-key="attn" placeholder="Client name" />
+      </div>
+      <div class="field-block">
+        <span class="lbl">Company</span>
+        <input class="fld" data-key="company" placeholder="Company name" />
+      </div>
+      <div class="field-block">
+        <span class="lbl">Project</span>
+        <input class="fld" data-key="project" placeholder="Project / domain" />
+      </div>
+      <div class="field-block">
+        <span class="lbl">Project Description</span>
+        <input class="fld" data-key="projdesc" placeholder="Short description" />
+      </div>
+      <div class="field-block">
+        <span class="lbl">P.O. Number</span>
+        <input class="fld" data-key="po" placeholder="—" />
+      </div>
+    </div>
+
+    <div class="card accent-purple">
+      <div class="card-title">From</div>
+      <input class="from-name" data-key="fromname" value="Sterling Creations Ai" />
+      <input class="from-line" data-key="fromsite" value="STERLINGCREATIONS.Ai" />
+      <input class="from-line" data-key="fromemail" value="INFO@STERLINGCREATIONS.Ai" />
+      <input class="from-line" data-key="fromphone" value="323-899-8423" />
+      <textarea class="from-line" data-key="fromblurb" rows="2">Premium Ai-powered creative systems built to help brands stand out.</textarea>
+    </div>
+  </div>
+
+  <!-- LINE ITEMS -->
+  <div class="items-card">
+    <table class="items">
+      <thead>
+        <tr>
+          <th class="desc">Description</th>
+          <th class="c" style="width:64px">Qty</th>
+          <th class="r" style="width:110px">Unit Price</th>
+          <th class="r" style="width:110px">Total</th>
+          <th class="del-cell"></th>
+        </tr>
+      </thead>
+      <tbody id="itemsBody">
+        <!-- rows injected by JS -->
+      </tbody>
+    </table>
+    <div class="add-row-wrap">
+      <button class="add-row" onclick="addLineItem()">＋ Add line item</button>
+    </div>
+  </div>
+
+  <!-- PAYMENT + TOTALS -->
+  <div class="lower-row">
+    <div class="card accent-pink">
+      <div class="card-title">Payment Details</div>
+      <div class="pay-grid">
+        <div class="field-block">
+          <span class="lbl">Zelle</span>
+          <input class="fld" data-key="zelle" value="323-899-8423  The Web Stylist / Sterling Williams" />
+        </div>
+        <div class="field-block">
+          <span class="lbl">Venmo</span>
+          <input class="fld" data-key="venmo" value="@sterling_williams" />
+        </div>
+        <div class="field-block">
+          <span class="lbl">PayPal</span>
+          <input class="fld" data-key="paypal" value="Payments@TheWebStylist.com" />
+        </div>
+        <div class="field-block">
+          <span class="lbl">Checks</span>
+          <input class="fld" data-key="checks" value="45 South Arroyo Parkway #B7, Pasadena, CA 91105" />
+        </div>
+      </div>
+    </div>
+
+    <div class="totals-card">
+      <div class="tot-row">
+        <span class="lbl">Subtotal</span>
+        <input class="val" id="subtotal" data-key="subtotal" readonly value="$0.00" />
+      </div>
+      <div class="tot-row">
+        <span class="lbl">Paid</span>
+        <input class="val" id="paid" data-key="paid" placeholder="$0.00" oninput="recalc()" />
+      </div>
+      <div class="tot-row grand">
+        <span class="lbl">Total Due</span>
+        <span class="grand-amt" id="totaldue">$0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-card">
+    <div class="card-title">Notes</div>
+    <textarea class="notes" data-key="notes" placeholder="Thank you for your business! Payment is due upon receipt unless otherwise agreed."></textarea>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="left">STERLINGCREATIONS.AI</span>
+    <span class="mid">INFO@STERLINGCREATIONS.AI</span>
+    <span class="right">Best All Ways Forward</span>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+  /* ── Currency helpers ──────────────────────────────────── */
+  const money = n => '$' + (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const parseNum = v => parseFloat(String(v).replace(/[^0-9.\-]/g, '')) || 0;
+
+  /* ── Line item row template ────────────────────────────── */
+  function rowHTML(d = {}) {
+    return `
+      <tr class="item-row">
+        <td class="desc"><input class="fld" data-col="desc" placeholder="Describe the work / service" value="${d.desc || ''}"></td>
+        <td class="c"><input class="fld" data-col="qty" inputmode="decimal" placeholder="1" value="${d.qty || ''}" oninput="recalc()"></td>
+        <td class="r"><input class="fld" data-col="price" inputmode="decimal" placeholder="0.00" value="${d.price || ''}" oninput="recalc()"></td>
+        <td class="r"><div class="line-total" data-col="total">$0.00</div></td>
+        <td class="del-cell"><button class="row-del" title="Remove line" onclick="this.closest('tr').remove(); recalc();">✕</button></td>
+      </tr>`;
+  }
+
+  function addLineItem(d) {
+    document.getElementById('itemsBody').insertAdjacentHTML('beforeend', rowHTML(d));
+    autoSizeAll();
+    recalc();
+  }
+
+  /* ── Recalculate totals ────────────────────────────────── */
+  function recalc() {
+    let subtotal = 0;
+    document.querySelectorAll('#itemsBody .item-row').forEach(row => {
+      const qty   = parseNum(row.querySelector('[data-col="qty"]').value) || 0;
+      const price = parseNum(row.querySelector('[data-col="price"]').value) || 0;
+      const hasQty = row.querySelector('[data-col="qty"]').value.trim() !== '';
+      const line = (hasQty ? qty : 1) * price;          /* blank qty defaults to 1 */
+      row.querySelector('[data-col="total"]').textContent = money(line);
+      subtotal += line;
+    });
+    document.getElementById('subtotal').value = money(subtotal);
+    const paid = parseNum(document.getElementById('paid').value);
+    document.getElementById('totaldue').textContent = money(subtotal - paid);
+  }
+
+  /* ── Auto-grow textareas ───────────────────────────────── */
+  function autoSize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+  function autoSizeAll() { document.querySelectorAll('textarea').forEach(autoSize); }
+
+  /* ── Local-storage draft save/restore ──────────────────── */
+  const STORE_KEY = 'sterling_invoice_draft_v1';
+
+  function collect() {
+    const data = { fields: {}, items: [] };
+    document.querySelectorAll('[data-key]').forEach(el => data.fields[el.dataset.key] = el.value);
+    document.querySelectorAll('#itemsBody .item-row').forEach(row => {
+      data.items.push({
+        desc:  row.querySelector('[data-col="desc"]').value,
+        qty:   row.querySelector('[data-col="qty"]').value,
+        price: row.querySelector('[data-col="price"]').value,
+      });
+    });
+    return data;
+  }
+
+  function saveLocal() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(collect()));
+    flash('Draft saved in this browser ✓');
+  }
+
+  function restoreLocal() {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return false;
+    try {
+      const data = JSON.parse(raw);
+      Object.entries(data.fields || {}).forEach(([k, v]) => {
+        const el = document.querySelector(`[data-key="${k}"]`);
+        if (el && k !== 'subtotal') el.value = v;
+      });
+      document.getElementById('itemsBody').innerHTML = '';
+      (data.items || []).forEach(addLineItem);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function resetForm() {
+    if (!confirm('Clear all fields and start a fresh invoice?')) return;
+    localStorage.removeItem(STORE_KEY);
+    location.reload();
+  }
+
+  /* tiny toast */
+  function flash(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#16182B;color:#fff;padding:.6rem 1.1rem;border-radius:8px;font:600 .78rem Montserrat,Arial;z-index:99;box-shadow:0 6px 24px rgba(0,0,0,.3)';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1800);
+  }
+
+  /* ── Init ──────────────────────────────────────────────── */
+  document.addEventListener('input', e => { if (e.target.tagName === 'TEXTAREA') autoSize(e.target); });
+
+  window.addEventListener('beforeunload', saveLocalSilently);
+  function saveLocalSilently() { localStorage.setItem(STORE_KEY, JSON.stringify(collect())); }
+
+  (function init() {
+    const restored = restoreLocal();
+    if (!restored) {
+      // Start with a few blank rows like the printed invoice
+      addLineItem(); addLineItem(); addLineItem();
+    }
+    autoSizeAll();
+    recalc();
+  })();
+</script>
+</body>
+</html>

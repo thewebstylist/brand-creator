@@ -21,8 +21,9 @@
 
   :root {
     --pink:      #E62B8B;
-    --purple:    #7A3FF2;
-    --cyan:      #22B8E6;
+    --blue:      #00C2FF;       /* bright neon blue */
+    --blue-ink:  #0E97C7;       /* legible neon-blue for small text */
+    --cyan:      #00C2FF;
     --ink:       #16182B;
     --ink-soft:  #2C2F45;
     --gray-700:  #4A4E63;
@@ -34,8 +35,8 @@
     --line:      #DCE0EC;
     --white:     #FFFFFF;
     --bg:        #E9EBF1;
-    --grad:      linear-gradient(135deg, var(--pink) 0%, var(--purple) 55%, var(--cyan) 100%);
-    --grad-v:    linear-gradient(180deg, var(--pink) 0%, var(--purple) 55%, var(--cyan) 100%);
+    --grad:      linear-gradient(120deg, var(--pink) 0%, var(--blue) 100%);
+    --grad-v:    linear-gradient(180deg, var(--pink) 0%, var(--blue) 100%);
     --font:      'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --pad-x:     2.6rem;
     --card-pad:  .85rem 1.2rem .9rem 1.35rem;
@@ -99,7 +100,7 @@
   .brand-name { font-size: 1.85rem; font-weight: 800; letter-spacing: .01em; color: var(--ink); line-height: 1; }
   .brand-name .ai { color: var(--pink); }
   .brand-tagline { margin-top: .45rem; font-size: .76rem; font-weight: 600; letter-spacing: .04em; color: var(--gray-500); }
-  .brand-services { margin-top: .28rem; font-size: .64rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--purple); }
+  .brand-services { margin-top: .28rem; font-size: .64rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--blue-ink); }
 
   /* ── Title + meta ──────────────────────────────────────── */
   .title-row {
@@ -147,22 +148,22 @@
   }
   .card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   .card.accent-pink::before   { background: var(--pink); }
-  .card.accent-purple::before { background: var(--purple); }
+  .card.accent-blue::before   { background: var(--blue); }
 
   .card-title { font-size: .65rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--pink); margin-bottom: .55rem; }
-  .card.accent-purple .card-title { color: var(--purple); }
+  .card.accent-blue .card-title { color: var(--blue-ink); }
 
   .field-block { margin-bottom: .35rem; }
   .field-block:last-child { margin-bottom: 0; }
   .field-block .lbl { font-size: .58rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .05rem; display: block; }
 
   /* From card — equal height with Bill To, info vertically centered */
-  .card.accent-purple { display: flex; flex-direction: column; }
+  .card.accent-blue { display: flex; flex-direction: column; }
   .from-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .from-name { font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: .2rem; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; }
   .from-line { font-size: .8rem; font-weight: 500; color: var(--gray-700); line-height: 1.5; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; padding: .02rem 0; display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
   textarea.from-line { resize: none; overflow: hidden; margin-top: .15rem; }
-  .from-line:focus, .from-name:focus { background: rgba(122,63,242,.06); border-radius: 4px; }
+  .from-line:focus, .from-name:focus { background: rgba(0,194,255,.09); border-radius: 4px; }
 
   /* ── Line items ────────────────────────────────────────── */
   .items-card { margin-top: 1rem; position: relative; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); overflow: hidden; }
@@ -190,9 +191,9 @@
   .lower-row { display: grid; grid-template-columns: 1.32fr 1fr; gap: 1.1rem; margin-top: 1rem; align-items: stretch; }
   .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; }
 
-  .totals-card { position: relative; background: linear-gradient(135deg, rgba(230,43,139,.10) 0%, rgba(122,63,242,.10) 55%, rgba(34,184,230,.10) 100%); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: .9rem 1.3rem .95rem 1.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .totals-card { position: relative; background: linear-gradient(120deg, rgba(230,43,139,.10) 0%, rgba(0,194,255,.12) 100%); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: .9rem 1.3rem .95rem 1.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
   .totals-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
-  .tot-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .42rem 0; border-bottom: 1px solid rgba(122,63,242,.16); }
+  .tot-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .42rem 0; border-bottom: 1px solid rgba(0,194,255,.20); }
   .tot-row .lbl { font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-700); }
   .tot-row .val { font-size: .95rem; font-weight: 700; color: var(--ink); text-align: right; width: 130px; border: none; background: transparent; font-family: var(--font); outline: none; border-bottom: 1.5px solid transparent; }
   .tot-row .val:focus { border-bottom-color: var(--pink); }
@@ -266,7 +267,7 @@
             <svg id="logoFallback" style="display:none" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="scg" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#E62B8B"/><stop offset="0.55" stop-color="#7A3FF2"/><stop offset="1" stop-color="#22B8E6"/>
+                  <stop offset="0" stop-color="#E62B8B"/><stop offset="1" stop-color="#00C2FF"/>
                 </linearGradient>
                 <path id="arcTop" d="M 16 60 A 44 44 0 0 1 104 60" fill="none"/>
                 <path id="arcBot" d="M 18 60 A 42 42 0 0 0 102 60" fill="none"/>
@@ -327,7 +328,7 @@
             <div class="field-block"><span class="lbl">P.O. Number</span><input class="fld" data-key="po" placeholder="—" /></div>
           </div>
 
-          <div class="card accent-purple">
+          <div class="card accent-blue">
             <div class="card-title">From</div>
             <div class="from-body">
               <input class="from-name" data-key="fromname" value="Sterling Creations Ai" />

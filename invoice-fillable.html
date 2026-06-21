@@ -11,9 +11,9 @@
   /* ─────────────────────────────────────────────────────────
      Sterling Creations Ai — Fillable Invoice
      • Every value is an editable field (type online, then print)
-     • Line totals / subtotal / total-due auto-calculate
-     • Multi-page safe: brand header + footer repeat on every printed
-       page (table-frame), and cards never split across a page break
+     • Money auto-formats; totals auto-calculate
+     • Multi-page safe: brand header + footer repeat per printed page;
+       cards never split across a page break
      • Tuned to fit a typical invoice on a single page
      ───────────────────────────────────────────────────────── */
 
@@ -21,9 +21,7 @@
 
   :root {
     --pink:      #E62B8B;
-    --pink-soft: #F472B6;
     --purple:    #7A3FF2;
-    --purple-dk: #5B21B6;
     --cyan:      #22B8E6;
     --ink:       #16182B;
     --ink-soft:  #2C2F45;
@@ -40,6 +38,8 @@
     --grad-v:    linear-gradient(180deg, var(--pink) 0%, var(--purple) 55%, var(--cyan) 100%);
     --font:      'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --pad-x:     2.6rem;
+    --card-pad:  .85rem 1.2rem .9rem 1.35rem;
+    --radius:    13px;
   }
 
   html { -webkit-text-size-adjust: 100%; }
@@ -83,16 +83,16 @@
   .sheet { width: 100%; border-collapse: collapse; }
   .sheet-cell { padding: 0 var(--pad-x); }
   thead .sheet-cell { padding-top: 1.7rem; }
-  tbody .sheet-cell { padding-top: .9rem; padding-bottom: .9rem; }
+  tbody .sheet-cell { padding-top: 1rem; padding-bottom: 1rem; }
   tfoot .sheet-cell { padding: 0 var(--pad-x); }
 
   /* ── Header ────────────────────────────────────────────── */
   .header {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 1.5rem; padding-bottom: .9rem;
+    gap: 1.5rem; padding-bottom: .95rem;
     border-bottom: 3px solid; border-image: var(--grad) 1;
   }
-  .logo { width: 88px; height: 88px; flex-shrink: 0; }
+  .logo { width: 90px; height: 90px; flex-shrink: 0; }
   .logo svg, .logo img { width: 100%; height: 100%; display: block; object-fit: contain; }
 
   .brand { text-align: right; }
@@ -104,7 +104,7 @@
   /* ── Title + meta ──────────────────────────────────────── */
   .title-row {
     display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 2.5rem; padding-bottom: .75rem;
+    gap: 2.5rem; padding-bottom: .95rem;
   }
   .title-left { flex: 0 1 360px; min-width: 0; }
   .title-eyebrow {
@@ -115,95 +115,100 @@
   }
   .title-eyebrow:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.05); }
   .title-main {
-    font-size: 2.3rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase;
-    color: var(--ink); line-height: 1; margin-top: .15rem;
+    font-size: 2.35rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase;
+    color: var(--ink); line-height: 1; margin-top: .18rem;
     background: transparent; border: none; outline: none; font-family: var(--font);
     width: 100%; border-bottom: 1.5px solid transparent; padding: .05rem 0;
   }
   .title-main:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.05); }
 
-  .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); gap: 1.1rem; flex: 0 1 auto; }
-  .meta-grid .cell { min-width: 84px; }
-  .meta-grid .lbl { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .1rem; }
+  .meta-grid { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); gap: 1.15rem; flex: 0 1 auto; }
+  .meta-grid .cell { min-width: 86px; }
+  .meta-grid .lbl { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .12rem; }
 
   /* ── Fields ────────────────────────────────────────────── */
   .fld {
     font-family: var(--font); font-size: .88rem; font-weight: 600; color: var(--ink);
     background: transparent; border: none; border-bottom: 1.5px solid var(--line);
-    padding: .15rem .1rem; width: 100%; outline: none;
+    padding: .18rem .1rem; width: 100%; outline: none;
     transition: border-color .15s ease, background .15s ease;
   }
   .fld::placeholder { color: var(--gray-400); font-weight: 500; }
   .fld:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.04); }
   textarea.fld { resize: none; line-height: 1.4; overflow: hidden; display: block; }
-  .meta-grid .fld { font-size: .9rem; min-width: 84px; }
+  .meta-grid .fld { font-size: .9rem; min-width: 86px; }
 
-  /* ── Cards ─────────────────────────────────────────────── */
-  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+  /* ── Cards (shared) ────────────────────────────────────── */
+  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; align-items: stretch; }
   .card {
     position: relative; background: var(--gray-100);
-    border: 1px solid var(--gray-200); border-radius: 12px;
-    padding: .7rem 1.1rem .75rem 1.3rem; overflow: hidden;
+    border: 1px solid var(--gray-200); border-radius: var(--radius);
+    padding: var(--card-pad); overflow: hidden;
   }
   .card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   .card.accent-pink::before   { background: var(--pink); }
   .card.accent-purple::before { background: var(--purple); }
 
-  .card-title { font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--pink); margin-bottom: .45rem; }
+  .card-title { font-size: .65rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--pink); margin-bottom: .55rem; }
   .card.accent-purple .card-title { color: var(--purple); }
 
-  .field-block { margin-bottom: .25rem; }
+  .field-block { margin-bottom: .35rem; }
   .field-block:last-child { margin-bottom: 0; }
-  .field-block .lbl { font-size: .58rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .02rem; display: block; }
+  .field-block .lbl { font-size: .58rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .05rem; display: block; }
 
-  .from-name { font-size: .98rem; font-weight: 800; color: var(--ink); margin-bottom: .15rem; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; }
-  .from-line { font-size: .8rem; font-weight: 500; color: var(--gray-700); line-height: 1.42; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; padding: .01rem 0; display: block; }
+  /* From card — equal height with Bill To, info vertically centered */
+  .card.accent-purple { display: flex; flex-direction: column; }
+  .from-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .from-name { font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: .2rem; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; }
+  .from-line { font-size: .8rem; font-weight: 500; color: var(--gray-700); line-height: 1.5; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; padding: .02rem 0; display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
+  textarea.from-line { resize: none; overflow: hidden; margin-top: .15rem; }
   .from-line:focus, .from-name:focus { background: rgba(122,63,242,.06); border-radius: 4px; }
 
   /* ── Line items ────────────────────────────────────────── */
-  .items-card { margin-top: .85rem; position: relative; background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; padding: .75rem 1.1rem .8rem 1.3rem; overflow: hidden; }
+  .items-card { margin-top: 1rem; position: relative; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); overflow: hidden; }
   .items-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   table.items { width: 100%; border-collapse: collapse; }
-  table.items thead th { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); text-align: left; padding: 0 .5rem .4rem; border-bottom: 1.5px solid var(--line); }
+  table.items thead th { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); text-align: left; padding: 0 .5rem .45rem; border-bottom: 1.5px solid var(--line); }
   table.items thead th.r { text-align: right; }
   table.items thead th.c { text-align: center; }
-  table.items tbody td { padding: .28rem .5rem; vertical-align: top; border-bottom: 1px solid var(--gray-100); }
-  table.items .fld { border-bottom: none; font-weight: 500; font-size: .84rem; padding-top: .3rem; }
+  table.items tbody td { padding: .3rem .5rem; vertical-align: top; border-bottom: 1px solid var(--gray-100); }
+  table.items tbody tr:last-child td { border-bottom: none; }
+  table.items .fld { border-bottom: none; font-weight: 500; font-size: .85rem; padding-top: .32rem; }
   table.items .fld:focus { background: rgba(230,43,139,.05); border-radius: 5px; }
-  table.items td.desc .fld { font-weight: 600; color: var(--ink); }
+  table.items td.desc .fld { font-weight: 600; color: var(--ink); line-height: 1.45; }
   table.items td.r .fld, table.items td.c .fld { text-align: right; }
   table.items td.c .fld { text-align: center; }
   .line-total { text-align: right; font-weight: 700; color: var(--ink); font-size: .88rem; white-space: nowrap; padding: .42rem .3rem 0 0; }
   .row-del { border: none; background: transparent; color: var(--gray-400); cursor: pointer; font-size: 1rem; line-height: 1; padding: .42rem .35rem 0; border-radius: 6px; transition: color .12s, background .12s; }
   .row-del:hover { color: var(--pink); background: rgba(230,43,139,.08); }
   td.del-cell { width: 30px; text-align: center; }
-  .add-row-wrap { margin-top: .5rem; }
+  .add-row-wrap { margin-top: .55rem; }
   .add-row { border: 1px dashed var(--gray-300); background: transparent; color: var(--gray-500); font-family: var(--font); font-size: .74rem; font-weight: 600; padding: .45rem .9rem; border-radius: 8px; cursor: pointer; transition: all .12s; }
   .add-row:hover { border-color: var(--pink); color: var(--pink); background: rgba(230,43,139,.04); }
 
   /* ── Payment + totals ──────────────────────────────────── */
-  .lower-row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1rem; margin-top: .85rem; align-items: stretch; }
-  .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .35rem .9rem; }
+  .lower-row { display: grid; grid-template-columns: 1.32fr 1fr; gap: 1.1rem; margin-top: 1rem; align-items: stretch; }
+  .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; }
 
-  .totals-card { position: relative; background: linear-gradient(135deg, rgba(230,43,139,.10) 0%, rgba(122,63,242,.10) 55%, rgba(34,184,230,.10) 100%); border: 1px solid var(--gray-200); border-radius: 12px; padding: .85rem 1.3rem .9rem 1.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .totals-card { position: relative; background: linear-gradient(135deg, rgba(230,43,139,.10) 0%, rgba(122,63,242,.10) 55%, rgba(34,184,230,.10) 100%); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: .9rem 1.3rem .95rem 1.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
   .totals-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
-  .tot-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .4rem 0; border-bottom: 1px solid rgba(122,63,242,.16); }
+  .tot-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .42rem 0; border-bottom: 1px solid rgba(122,63,242,.16); }
   .tot-row .lbl { font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-700); }
-  .tot-row .val { font-size: .95rem; font-weight: 700; color: var(--ink); text-align: right; width: 120px; border: none; background: transparent; font-family: var(--font); outline: none; border-bottom: 1.5px solid transparent; }
+  .tot-row .val { font-size: .95rem; font-weight: 700; color: var(--ink); text-align: right; width: 130px; border: none; background: transparent; font-family: var(--font); outline: none; border-bottom: 1.5px solid transparent; }
   .tot-row .val:focus { border-bottom-color: var(--pink); }
-  .tot-row.grand { border-bottom: none; margin-top: .25rem; padding-top: .55rem; }
-  .grand-label { font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); border: none; background: transparent; outline: none; font-family: var(--font); width: 130px; border-bottom: 1.5px solid transparent; padding: .1rem 0; }
+  .tot-row.grand { border-bottom: none; margin-top: .3rem; padding-top: .6rem; }
+  .grand-label { font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); border: none; background: transparent; outline: none; font-family: var(--font); width: 140px; border-bottom: 1.5px solid transparent; padding: .1rem 0; }
   .grand-label:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.05); }
-  .tot-row.grand .grand-amt { font-size: 1.55rem; font-weight: 800; color: var(--pink); text-align: right; width: 150px; }
+  .tot-row.grand .grand-amt { font-size: 1.6rem; font-weight: 800; color: var(--pink); text-align: right; flex: 1; }
 
   /* ── Notes ─────────────────────────────────────────────── */
-  .notes-card { position: relative; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: 12px; padding: .75rem 1.1rem .8rem 1.3rem; margin-top: .85rem; overflow: hidden; }
+  .notes-card { position: relative; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); margin-top: 1rem; overflow: hidden; }
   .notes-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   .notes-card .card-title { margin-bottom: .4rem; }
-  textarea.notes { width: 100%; min-height: 40px; border: none; background: transparent; resize: none; outline: none; font-family: var(--font); font-size: .8rem; font-weight: 500; line-height: 1.55; color: var(--gray-700); overflow: hidden; display: block; }
+  textarea.notes { width: 100%; min-height: 38px; border: none; background: transparent; resize: none; outline: none; font-family: var(--font); font-size: .8rem; font-weight: 500; line-height: 1.55; color: var(--gray-700); overflow: hidden; display: block; }
 
   /* ── Footer ────────────────────────────────────────────── */
-  .footer { padding: .85rem 0 1.1rem; border-top: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gray-500); }
+  .footer { padding: .9rem 0 1.15rem; border-top: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gray-500); }
   .footer .mid { color: var(--gray-400); }
   .footer .right { color: var(--ink); letter-spacing: .08em; }
 
@@ -324,11 +329,13 @@
 
           <div class="card accent-purple">
             <div class="card-title">From</div>
-            <input class="from-name" data-key="fromname" value="Sterling Creations Ai" />
-            <input class="from-line" data-key="fromsite" value="STERLINGCREATIONS.Ai" />
-            <input class="from-line" data-key="fromemail" value="INFO@STERLINGCREATIONS.Ai" />
-            <input class="from-line" data-key="fromphone" value="323-899-8423" />
-            <textarea class="from-line" data-key="fromblurb" rows="2">Premium Ai-powered creative systems built to help brands stand out.</textarea>
+            <div class="from-body">
+              <input class="from-name" data-key="fromname" value="Sterling Creations Ai" />
+              <input class="from-line" data-key="fromsite" value="STERLINGCREATIONS.Ai" />
+              <input class="from-line" data-key="fromemail" value="INFO@STERLINGCREATIONS.Ai" />
+              <input class="from-line" data-key="fromphone" value="323-899-8423" />
+              <textarea class="from-line" data-key="fromblurb" rows="2">Premium Ai-powered creative systems built to help brands stand out.</textarea>
+            </div>
           </div>
         </div>
 
@@ -338,9 +345,9 @@
             <thead>
               <tr>
                 <th class="desc">Description</th>
-                <th class="c" style="width:60px">Qty</th>
-                <th class="r" style="width:100px">Unit Price</th>
-                <th class="r" style="width:105px">Total</th>
+                <th class="c" style="width:58px">Qty</th>
+                <th class="r" style="width:108px">Unit Price</th>
+                <th class="r" style="width:108px">Total</th>
                 <th class="del-cell"></th>
               </tr>
             </thead>
@@ -363,7 +370,7 @@
 
           <div class="totals-card">
             <div class="tot-row"><span class="lbl">Subtotal</span><input class="val" id="subtotal" data-key="subtotal" readonly value="$0.00" /></div>
-            <div class="tot-row"><span class="lbl">Paid</span><input class="val" id="paid" data-key="paid" placeholder="$0.00" oninput="recalc()" /></div>
+            <div class="tot-row"><span class="lbl">Paid</span><input class="val" id="paid" data-key="paid" placeholder="$0.00" onfocus="rawMoney(this)" onblur="fmtMoney(this);recalc()" oninput="recalc()" /></div>
             <div class="tot-row grand">
               <input class="grand-label" data-key="grandlabel" value="Total Due" />
               <span class="grand-amt" id="totaldue">$0.00</span>
@@ -389,13 +396,17 @@
   const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const escA = s => esc(s).replace(/"/g,'&quot;');
 
+  /* Money field focus/blur: edit as raw number, display as currency */
+  function rawMoney(el) { el.value = el.value.trim() === '' ? '' : String(parseNum(el.value)); }
+  function fmtMoney(el) { el.value = el.value.trim() === '' ? '' : money(parseNum(el.value)); }
+
   /* ── Line item row ─────────────────────────────────────── */
   function rowHTML(d = {}) {
     return `
       <tr class="item-row">
         <td class="desc"><textarea class="fld" data-col="desc" rows="1" placeholder="Describe the work / service — long, detailed text wraps and prints in full">${esc(d.desc || '')}</textarea></td>
         <td class="c"><input class="fld" data-col="qty" inputmode="decimal" placeholder="1" value="${escA(d.qty || '')}" oninput="recalc()"></td>
-        <td class="r"><input class="fld" data-col="price" inputmode="decimal" placeholder="0.00" value="${escA(d.price || '')}" oninput="recalc()"></td>
+        <td class="r"><input class="fld" data-col="price" inputmode="decimal" placeholder="0.00" value="${escA(d.price || '')}" onfocus="rawMoney(this)" onblur="fmtMoney(this);recalc()" oninput="recalc()"></td>
         <td class="r"><div class="line-total" data-col="total">$0.00</div></td>
         <td class="del-cell"><button class="row-del" title="Remove line" onclick="this.closest('tr').remove(); recalc();">✕</button></td>
       </tr>`;
@@ -424,6 +435,13 @@
   /* ── Auto-grow textareas ───────────────────────────────── */
   function autoSize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
   function autoSizeAll() { document.querySelectorAll('textarea').forEach(autoSize); }
+
+  /* Format any price/paid fields that hold a value (e.g. after restore) */
+  function formatMoneyFields() {
+    document.querySelectorAll('#itemsBody [data-col="price"], #paid').forEach(el => {
+      if (document.activeElement !== el) fmtMoney(el);
+    });
+  }
 
   /* ── Drafts (localStorage) ─────────────────────────────── */
   const STORE_KEY = 'sterling_invoice_draft_v2';
@@ -458,7 +476,7 @@
   }
 
   /* ── Print prep ────────────────────────────────────────── */
-  function prepPrint() { autoSizeAll(); recalc(); setTimeout(() => window.print(), 60); }
+  function prepPrint() { autoSizeAll(); formatMoneyFields(); recalc(); setTimeout(() => window.print(), 60); }
 
   /* ── Toast ─────────────────────────────────────────────── */
   function flash(msg) {
@@ -470,12 +488,12 @@
 
   /* ── Init ──────────────────────────────────────────────── */
   document.addEventListener('input', e => { if (e.target.tagName === 'TEXTAREA') autoSize(e.target); });
-  window.addEventListener('beforeprint', autoSizeAll);
+  window.addEventListener('beforeprint', () => { autoSizeAll(); formatMoneyFields(); });
   window.addEventListener('beforeunload', () => localStorage.setItem(STORE_KEY, JSON.stringify(collect())));
 
   (function init() {
     if (!restoreLocal()) { addLineItem(); addLineItem(); addLineItem(); }
-    autoSizeAll(); recalc();
+    autoSizeAll(); formatMoneyFields(); recalc();
   })();
 </script>
 </body>

@@ -39,7 +39,7 @@
     --grad-v:    linear-gradient(180deg, var(--pink) 0%, var(--blue) 100%);
     --font:      'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --pad-x:     2.6rem;
-    --card-pad:  .85rem 1.2rem .9rem 1.35rem;
+    --card-pad:  .7rem 1.15rem .75rem 1.3rem;
     --radius:    13px;
   }
 
@@ -84,16 +84,16 @@
   .sheet { width: 100%; border-collapse: collapse; }
   .sheet-cell { padding: 0 var(--pad-x); }
   thead .sheet-cell { padding-top: 1.7rem; }
-  tbody .sheet-cell { padding-top: 1rem; padding-bottom: 1rem; }
+  tbody .sheet-cell { padding-top: .7rem; padding-bottom: .7rem; }
   tfoot .sheet-cell { padding: 0 var(--pad-x); }
 
   /* ── Header ────────────────────────────────────────────── */
   .header {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 1.5rem; padding-bottom: .95rem;
+    gap: 1.5rem; padding-bottom: .8rem;
     border-bottom: 3px solid; border-image: var(--grad) 1;
   }
-  .logo { width: 90px; height: 90px; flex-shrink: 0; }
+  .logo { width: 78px; height: 78px; flex-shrink: 0; }
   .logo svg, .logo img { width: 100%; height: 100%; display: block; object-fit: contain; }
 
   .brand { text-align: right; }
@@ -105,7 +105,7 @@
   /* ── Title + meta ──────────────────────────────────────── */
   .title-row {
     display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 2.5rem; padding-bottom: .95rem;
+    gap: 2.5rem; padding-bottom: .65rem;
   }
   .title-left { flex: 0 1 360px; min-width: 0; }
   .title-eyebrow {
@@ -116,8 +116,8 @@
   }
   .title-eyebrow:focus { border-bottom-color: var(--pink); background: rgba(230,43,139,.05); }
   .title-main {
-    font-size: 2.35rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase;
-    color: var(--ink); line-height: 1; margin-top: .18rem;
+    font-size: 2.05rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase;
+    color: var(--ink); line-height: 1; margin-top: .12rem;
     background: transparent; border: none; outline: none; font-family: var(--font);
     width: 100%; border-bottom: 1.5px solid transparent; padding: .05rem 0;
   }
@@ -140,7 +140,7 @@
   .meta-grid .fld { font-size: .9rem; min-width: 86px; }
 
   /* ── Cards (shared) ────────────────────────────────────── */
-  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; align-items: stretch; }
+  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; align-items: start; }
   .card {
     position: relative; background: var(--gray-100);
     border: 1px solid var(--gray-200); border-radius: var(--radius);
@@ -153,26 +153,25 @@
   .card-title { font-size: .65rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--pink); margin-bottom: .55rem; }
   .card.accent-blue .card-title { color: var(--blue-ink); }
 
-  .field-block { margin-bottom: .35rem; }
+  .field-block { margin-bottom: .28rem; }
   .field-block:last-child { margin-bottom: 0; }
   .field-block .lbl { font-size: .58rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--gray-500); margin-bottom: .05rem; display: block; }
 
   /* From card — equal height with Bill To, info vertically centered */
-  .card.accent-blue { display: flex; flex-direction: column; }
-  .from-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .from-body { display: flex; flex-direction: column; }
   .from-name { font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: .2rem; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; }
   .from-line { font-size: .8rem; font-weight: 500; color: var(--gray-700); line-height: 1.5; width: 100%; border: none; background: transparent; font-family: var(--font); outline: none; padding: .02rem 0; display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
   textarea.from-line { resize: none; overflow: hidden; margin-top: .15rem; }
   .from-line:focus, .from-name:focus { background: rgba(0,194,255,.09); border-radius: 4px; }
 
   /* ── Line items ────────────────────────────────────────── */
-  .items-card { margin-top: 1rem; position: relative; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); overflow: hidden; }
+  .items-card { margin-top: .7rem; position: relative; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); overflow: hidden; }
   .items-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   table.items { width: 100%; border-collapse: collapse; }
   table.items thead th { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); text-align: left; padding: 0 .5rem .45rem; border-bottom: 1.5px solid var(--line); }
   table.items thead th.r { text-align: right; }
   table.items thead th.c { text-align: center; }
-  table.items tbody td { padding: .3rem .5rem; vertical-align: top; border-bottom: 1px solid var(--gray-100); }
+  table.items tbody td { padding: .26rem .5rem; vertical-align: top; border-bottom: 1px solid var(--gray-100); }
   table.items tbody tr:last-child td { border-bottom: none; }
   table.items .fld { border-bottom: none; font-weight: 500; font-size: .85rem; padding-top: .32rem; }
   table.items .fld:focus { background: rgba(230,43,139,.05); border-radius: 5px; }
@@ -188,7 +187,7 @@
   .add-row:hover { border-color: var(--pink); color: var(--pink); background: rgba(230,43,139,.04); }
 
   /* ── Payment + totals ──────────────────────────────────── */
-  .lower-row { display: grid; grid-template-columns: 1.32fr 1fr; gap: 1.1rem; margin-top: 1rem; align-items: stretch; }
+  .lower-row { display: grid; grid-template-columns: 1.32fr 1fr; gap: .9rem; margin-top: .7rem; align-items: stretch; }
   .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; }
 
   .totals-card { position: relative; background: linear-gradient(120deg, rgba(230,43,139,.10) 0%, rgba(0,194,255,.12) 100%); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: .9rem 1.3rem .95rem 1.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
@@ -203,13 +202,13 @@
   .tot-row.grand .grand-amt { font-size: 1.6rem; font-weight: 800; color: var(--pink); text-align: right; flex: 1; }
 
   /* ── Notes ─────────────────────────────────────────────── */
-  .notes-card { position: relative; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); margin-top: 1rem; overflow: hidden; }
+  .notes-card { position: relative; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: var(--card-pad); margin-top: .7rem; overflow: hidden; }
   .notes-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--grad-v); }
   .notes-card .card-title { margin-bottom: .4rem; }
-  textarea.notes { width: 100%; min-height: 38px; border: none; background: transparent; resize: none; outline: none; font-family: var(--font); font-size: .8rem; font-weight: 500; line-height: 1.55; color: var(--gray-700); overflow: hidden; display: block; }
+  textarea.notes { width: 100%; min-height: 30px; border: none; background: transparent; resize: none; outline: none; font-family: var(--font); font-size: .8rem; font-weight: 500; line-height: 1.55; color: var(--gray-700); overflow: hidden; display: block; }
 
   /* ── Footer ────────────────────────────────────────────── */
-  .footer { padding: .9rem 0 1.15rem; border-top: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gray-500); }
+  .footer { padding: .75rem 0 .9rem; border-top: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gray-500); }
   .footer .mid { color: var(--gray-400); }
   .footer .right { color: var(--ink); letter-spacing: .08em; }
 
@@ -234,7 +233,7 @@
     .fld:focus { border-bottom-color: var(--line); }
     .fld::placeholder, textarea.notes::placeholder { color: transparent; }
 
-    @page { size: letter; margin: 10mm 0; }
+    @page { size: letter; margin: 8mm 0; }
   }
 </style>
 </head>

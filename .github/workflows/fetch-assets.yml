@@ -27,6 +27,8 @@ jobs:
           curl -fsSL -o /tmp/room_raw.mp4  "$base/hf_20260704_062819_0ec2525a-4198-445f-b658-528376e87875.mp4"
           curl -fsSL -o /tmp/craft_raw.mp4 "$base/hf_20260704_062807_407b77f8-2d48-41fc-b429-804b86769987.mp4"
           ls -la /tmp/*.mp4
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Encode for web
         run: |
           # Hero: keyframe-dense for buttery currentTime scrubbing.

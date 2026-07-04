@@ -335,6 +335,7 @@ select.field__input option { background: var(--ink-2); color: var(--cream); }
 .resform__submit:hover { background: transparent; color: var(--ember-bright); }
 .resform__fineprint { margin-top: 1.1rem; font-style: italic; font-size: .85rem; color: var(--cream-dim); text-align: center; }
 
+.resform__done[hidden] { display: none; }
 .resform__done {
   position: absolute; inset: 0;
   background: var(--ink-2);

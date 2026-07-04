@@ -17,8 +17,14 @@
 
   /* ---------- video loading ----------
      The hero clip is fetched as a blob so every frame is buffered before
-     scrubbing begins — seeking then never stalls on the network. */
-  const HERO_SRC = 'assets/video/fire.mp4';
+     scrubbing begins — seeking then never stalls on the network.
+     H.264 mp4 is preferred; open-codec Chromium builds get the VP9 webm. */
+  const probe = document.createElement('video');
+  const CAN_H264 = !!probe.canPlayType('video/mp4; codecs="avc1.64001F"');
+  const EXT = CAN_H264 ? 'mp4' : 'webm';
+  const VIDEO_MIME = CAN_H264 ? 'video/mp4' : 'video/webm';
+  const srcFor = (base) => base.replace(/\.mp4$/, `.${EXT}`);
+  const HERO_SRC = srcFor('assets/video/fire.mp4');
   let heroReady = false;
 
   function fetchAsBlob(url, onProgress) {
@@ -36,7 +42,7 @@
         received += value.length;
         if (onProgress) onProgress(received / total);
       }
-      return new Blob(chunks, { type: 'video/mp4' });
+      return new Blob(chunks, { type: VIDEO_MIME });
     });
   }
 
@@ -64,7 +70,7 @@
         if (!e.isIntersecting) return;
         const v = e.target;
         io.unobserve(v);
-        fetchAsBlob(v.dataset.src).then((blob) => {
+        fetchAsBlob(srcFor(v.dataset.src)).then((blob) => {
           v.src = URL.createObjectURL(blob);
           v.addEventListener('canplay', () => {
             v.classList.add('is-ready');

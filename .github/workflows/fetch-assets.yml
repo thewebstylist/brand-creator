@@ -1,0 +1,45 @@
+name: Fetch Ember & Oak video assets
+
+# One-shot helper: downloads the three generated Seedance clips from the
+# Higgsfield CDN (unreachable from the sandboxed dev container) and commits
+# them into ember-oak/assets/video/ on the branch it runs on. The hero clip
+# is re-encoded with an all-intra GOP so scroll-scrubbing seeks frame-exact.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download clips
+        run: |
+          mkdir -p ember-oak/assets/video
+          base="https://d8j0ntlcm91z4.cloudfront.net/user_2vQdbkYJJTfppgV7PaStt9K0SSy"
+          curl -fsSL -o /tmp/fire_raw.mp4  "$base/hf_20260704_062801_bff7dcf9-f685-464c-9b54-e63168066ebe.mp4"
+          curl -fsSL -o /tmp/room_raw.mp4  "$base/hf_20260704_062819_0ec2525a-4198-445f-b658-528376e87875.mp4"
+          curl -fsSL -o /tmp/craft_raw.mp4 "$base/hf_20260704_062807_407b77f8-2d48-41fc-b429-804b86769987.mp4"
+          ls -la /tmp/*.mp4
+      - name: Encode for web
+        run: |
+          # Hero: keyframe-dense for buttery currentTime scrubbing.
+          ffmpeg -y -i /tmp/fire_raw.mp4 -an -c:v libx264 -preset slow -crf 21 \
+            -g 4 -keyint_min 1 -pix_fmt yuv420p -movflags +faststart \
+            ember-oak/assets/video/fire.mp4
+          # Ambient loops: standard efficient encodes.
+          ffmpeg -y -i /tmp/room_raw.mp4 -an -c:v libx264 -preset slow -crf 23 \
+            -pix_fmt yuv420p -movflags +faststart ember-oak/assets/video/room.mp4
+          ffmpeg -y -i /tmp/craft_raw.mp4 -an -c:v libx264 -preset slow -crf 23 \
+            -pix_fmt yuv420p -movflags +faststart ember-oak/assets/video/craft.mp4
+          ls -la ember-oak/assets/video/
+      - name: Commit to branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ember-oak/assets/video
+          git commit -m "Add Ember & Oak video assets (Seedance 2.0 renders)"
+          git push

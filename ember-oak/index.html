@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember &amp; Oak — Wood-Fire Steakhouse, Asheville</title>
+<meta name="description" content="Ember & Oak. A wood-fire steakhouse in Asheville. Six dishes. One fire.">
+<link rel="preload" href="assets/fonts/cormorant-garamond-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jost-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%230b0908'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23e8622c'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <span class="loader__mark">E&amp;O</span>
+  <span class="loader__line"><span class="loader__fill" id="loaderFill"></span></span>
+  <span class="loader__note">Lighting the fire</span>
+</div>
+
+<header class="nav" id="nav">
+  <a class="nav__mark" href="#top" aria-label="Ember and Oak — home">EMBER&nbsp;<span class="amp">&amp;</span>&nbsp;OAK</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#story">Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#private">Private&nbsp;Dining</a>
+  </nav>
+  <a class="nav__cta" href="#reserve">Reserve</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO — scroll-scrubbed fire ============ -->
+  <section class="hero" id="hero" aria-label="Ember and Oak">
+    <div class="hero__sticky">
+      <video id="heroVideo" class="hero__video" muted playsinline preload="auto" disablepictureinpicture></video>
+      <div class="hero__veil" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="hero__kicker" id="heroKicker">Asheville, North Carolina</p>
+        <h1 class="hero__title" id="heroTitle">EMBER <span class="amp">&amp;</span> OAK</h1>
+        <p class="hero__tag" id="heroTag">Wood fire. Nothing else.</p>
+      </div>
+      <div class="hero__hint" id="heroHint" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="hero__hint-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY — over the dining-room clip ============ -->
+  <section class="panel panel--story" id="story">
+    <div class="panel__media"><video class="js-loop" data-src="assets/video/room.mp4" muted loop playsinline preload="none" data-parallax="-0.12"></video></div>
+    <div class="panel__scrim" aria-hidden="true"></div>
+    <div class="panel__inner">
+      <p class="eyebrow" data-reveal>01 — The Room</p>
+      <h2 class="display" data-reveal data-delay="1">Six dishes.<br>One fire.</h2>
+      <div class="panel__copy" data-reveal data-delay="2">
+        <p>There is no gas line in this building. No range, no fryer, no shortcut. An oak-fed hearth is lit at six each morning and dies at midnight.</p>
+        <p>Everything you taste passed through it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section class="menu" id="menu">
+    <div class="menu__glow" aria-hidden="true"></div>
+    <div class="menu__inner">
+      <p class="eyebrow" data-reveal>02 — The Menu</p>
+      <h2 class="display" data-reveal data-delay="1">What the fire gives.</h2>
+      <div class="menu__columns">
+        <div class="menu__col" data-reveal data-delay="2">
+          <h3 class="menu__heading">Fire</h3>
+          <ul class="menu__list">
+            <li><span class="dish">Ribeye <em>dry-aged forty days, bone marrow butter</em></span><span class="rule" aria-hidden="true"></span><span class="price">74</span></li>
+            <li><span class="dish">Short rib <em>twelve hours over oak, charred allium</em></span><span class="rule" aria-hidden="true"></span><span class="price">48</span></li>
+            <li><span class="dish">Branzino <em>whole, ember lemon, green oil</em></span><span class="rule" aria-hidden="true"></span><span class="price">46</span></li>
+          </ul>
+        </div>
+        <div class="menu__col" data-reveal data-delay="3">
+          <h3 class="menu__heading">Field</h3>
+          <ul class="menu__list">
+            <li><span class="dish">Leeks <em>ash cream, toasted hazelnut</em></span><span class="rule" aria-hidden="true"></span><span class="price">19</span></li>
+            <li><span class="dish">Beets <em>buried in embers, smoked yogurt</em></span><span class="rule" aria-hidden="true"></span><span class="price">18</span></li>
+            <li><span class="dish">Maitake <em>grilled over coals, bone jus</em></span><span class="rule" aria-hidden="true"></span><span class="price">21</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="menu__note" data-reveal data-delay="4">Sourdough and cultured butter, with our compliments.<br>The menu changes with the woodpile. Six dishes, always.</p>
+    </div>
+  </section>
+
+  <!-- ============ PRIVATE DINING — over the plating clip ============ -->
+  <section class="panel panel--private" id="private">
+    <div class="panel__media"><video class="js-loop" data-src="assets/video/craft.mp4" muted loop playsinline preload="none" data-parallax="-0.12"></video></div>
+    <div class="panel__scrim" aria-hidden="true"></div>
+    <div class="panel__inner panel__inner--right">
+      <p class="eyebrow" data-reveal>03 — The Ember Room</p>
+      <h2 class="display" data-reveal data-delay="1">Twelve seats.<br>One table.</h2>
+      <div class="panel__copy" data-reveal data-delay="2">
+        <p>A private room behind the hearth, close enough to hear the wood settle. One seating a night. The kitchen decides; you say yes.</p>
+        <p><a class="link-quiet" href="#reserve">Enquire for the Ember Room&nbsp;&rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESERVE — hours, map, form ============ -->
+  <section class="reserve" id="reserve">
+    <div class="reserve__inner">
+      <p class="eyebrow" data-reveal>04 — Visit</p>
+      <h2 class="display" data-reveal data-delay="1">Reserve a table.</h2>
+
+      <div class="reserve__grid">
+        <div class="reserve__info" data-reveal data-delay="2">
+          <div class="hours">
+            <h3 class="small-heading">Hours</h3>
+            <dl class="hours__list">
+              <div><dt>Tue — Thu</dt><dd>5 — 10</dd></div>
+              <div><dt>Fri — Sat</dt><dd>5 — 12</dd></div>
+              <div><dt>Sunday</dt><dd>4 — 9</dd></div>
+              <div><dt>Monday</dt><dd>The fire rests</dd></div>
+            </dl>
+          </div>
+
+          <div class="map" role="img" aria-label="Map showing Ember and Oak at 17 Coal Yard Row, by the river in Asheville">
+            <svg viewBox="0 0 520 340" preserveAspectRatio="xMidYMid slice">
+              <path class="map-river" d="M-10,300 C90,260 140,290 220,250 C310,205 340,235 430,190 C480,165 510,175 540,150" />
+              <path class="map-river map-river--inner" d="M-10,306 C90,266 140,296 220,256 C310,211 340,241 430,196 C480,171 510,181 540,156" />
+              <line class="map-street" x1="60" y1="-10" x2="60" y2="350"/>
+              <line class="map-street" x1="170" y1="-10" x2="170" y2="350"/>
+              <line class="map-street" x1="290" y1="-10" x2="290" y2="350"/>
+              <line class="map-street" x1="410" y1="-10" x2="410" y2="350"/>
+              <line class="map-street" x1="-10" y1="70" x2="530" y2="70"/>
+              <line class="map-street" x1="-10" y1="150" x2="530" y2="150"/>
+              <line class="map-street map-street--main" x1="-10" y1="110" x2="530" y2="110"/>
+              <text class="map-label" x="76" y="62" transform="rotate(-90 76 62)">Depot St</text>
+              <text class="map-label" x="330" y="102">Coal Yard Row</text>
+              <text class="map-label map-label--river" x="380" y="228" transform="rotate(-14 380 228)">French Broad</text>
+              <circle class="map-pulse" cx="230" cy="110" r="9"/>
+              <circle class="map-dot" cx="230" cy="110" r="4.5"/>
+              <text class="map-label map-label--mark" x="230" y="88" text-anchor="middle">EMBER &amp; OAK</text>
+            </svg>
+          </div>
+
+          <address class="address">
+            17 Coal Yard Row, River Arts District<br>
+            Asheville, NC &middot; <a class="link-quiet" href="tel:+18285550117">828 555 0117</a>
+          </address>
+        </div>
+
+        <form class="resform" id="resform" data-reveal data-delay="3" novalidate>
+          <div class="resform__row">
+            <label class="field">
+              <span class="field__label">Date</span>
+              <input class="field__input" type="date" name="date" id="resDate" required>
+            </label>
+            <label class="field">
+              <span class="field__label">Party</span>
+              <select class="field__input" name="party" id="resParty" required>
+                <option value="2" selected>Two</option>
+                <option value="1">One</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five</option>
+                <option value="6">Six</option>
+                <option value="12">The Ember Room — twelve</option>
+              </select>
+            </label>
+          </div>
+          <div class="resform__row">
+            <label class="field field--wide">
+              <span class="field__label">Time</span>
+              <select class="field__input" name="time" id="resTime">
+                <option>5:00</option><option>5:30</option><option>6:00</option><option>6:30</option>
+                <option selected>7:00</option><option>7:30</option><option>8:00</option><option>8:30</option>
+                <option>9:00</option><option>9:30</option>
+              </select>
+            </label>
+          </div>
+          <button class="resform__submit" type="submit"><span>Reserve a Table</span></button>
+          <p class="resform__fineprint">No deposits. We hold the table twenty minutes past the hour.</p>
+          <div class="resform__done" id="resDone" hidden>
+            <p class="resform__done-title">The table is yours.</p>
+            <p class="resform__done-copy" id="resDoneCopy"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__mark">EMBER <span class="amp">&amp;</span> OAK</p>
+  <p class="footer__line">Wood fire. Nothing else.</p>
+  <p class="footer__small">17 Coal Yard Row, Asheville &middot; A fictional restaurant, built for the love of the craft.</p>
+</footer>
+
+<div class="grain" aria-hidden="true"></div>
+
+<script src="main.js"></script>
+</body>
+</html>

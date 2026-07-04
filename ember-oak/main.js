@@ -62,25 +62,36 @@
       }));
   }
 
-  /* Ambient loops (story / private) lazy-load once near the viewport. */
+  /* Ambient loops (story / private). iOS Safari only autoplays when the
+     element is muted + playsInline with a direct src, so set everything as
+     both attribute and property, then retry on scroll/touch for Low Power
+     Mode, where the first play() attempt is rejected. */
   function initLoops() {
-    const loops = document.querySelectorAll('video.js-loop');
+    const loops = [...document.querySelectorAll('video.js-loop')];
+    const tryPlay = (v) => {
+      v.muted = true;
+      const p = v.play();
+      if (p) p.then(() => v.classList.add('is-ready')).catch(() => {});
+    };
+    loops.forEach((v) => {
+      v.muted = true;
+      v.defaultMuted = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.setAttribute('muted', '');
+      v.setAttribute('autoplay', '');
+      v.preload = 'auto';
+      v.src = srcFor(v.dataset.src);
+      v.addEventListener('loadeddata', () => { v.classList.add('is-ready'); tryPlay(v); }, { once: true });
+      v.load();
+    });
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const v = e.target;
-        io.unobserve(v);
-        fetchAsBlob(srcFor(v.dataset.src)).then((blob) => {
-          v.src = URL.createObjectURL(blob);
-          v.addEventListener('canplay', () => {
-            v.classList.add('is-ready');
-            v.play().catch(() => {});
-          }, { once: true });
-          v.load();
-        }).catch(() => {});
-      });
-    }, { rootMargin: '600px' });
+      entries.forEach((e) => { if (e.isIntersecting && e.target.paused) tryPlay(e.target); });
+    }, { rootMargin: '300px' });
     loops.forEach((v) => io.observe(v));
+    const kick = () => loops.forEach((v) => { if (v.paused) tryPlay(v); });
+    addEventListener('touchstart', kick, { once: true, passive: true });
+    addEventListener('scroll', kick, { once: true, passive: true });
   }
 
   /* ---------- hero scrub + tracking-in title ---------- */

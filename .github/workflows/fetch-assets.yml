@@ -7,6 +7,9 @@ name: Fetch Ember & Oak video assets
 
 on:
   workflow_dispatch:
+  push:
+    branches: ['claude/ember-oak-steakhouse-site-h8zjmj']
+    paths: ['.github/workflows/fetch-assets.yml']
 
 permissions:
   contents: write

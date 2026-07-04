@@ -2,7 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # ember-oak branch included so the site can be previewed live before merge;
+    # the branch is a superset of main, so existing pages are unaffected.
+    branches: [main, claude/ember-oak-steakhouse-site-h8zjmj]
+  workflow_dispatch:
 
 permissions:
   contents: read
